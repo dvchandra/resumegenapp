@@ -1,0 +1,28 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  width: 100% !important;
+  height: 100% !important;
+}
+footer {
+  background-color: #94d0cc;
+  height: 8%;
+  bottom: 0;
+  width: 100%;
+  padding: 1px 0px;
+  margin: 40px 0px;
+}
+/* .MuiCardContent-root {
+  
+} */
+.MuiCardActions-root {
+  background-color: #f9f9f9;
+}
+.MuiFormControl-root {
+  margin: 10px 150px !important;
+}
+.MuiAvatar-root {
+  width: 140px !important;
+  height: 140px !important;
+  margin: 50px auto;
+}
