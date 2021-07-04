@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
-import Userform from "./UserForm";
+import UserForm from "./UserForm";
 import Footer from "./Footer";
 export default function App() {
+  const [details, setdetails] = useState([]);
+  function addDetail(data) {
+    setdetails((prevData) => {
+      return [...prevData, data];
+    });
+  }
   return (
     <div className="App">
-      <h1>Extra change</h1>
       <Header />
-      <Userform />
+      <UserForm addUser={addDetail} />
+      {/* {details.map((user) => {
+        <li>user</li>;
+      })} */}
       <Footer />
     </div>
   );
