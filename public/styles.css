@@ -3,6 +3,7 @@
   text-align: center;
   width: 100% !important;
   height: 100% !important;
+  background-color: #ffd8cc;
 }
 footer {
   background-color: #94d0cc;
@@ -15,14 +16,96 @@ footer {
 /* .MuiCardContent-root {
   
 } */
+.MuiCard-root {
+  width: 50%;
+  margin: 2px auto;
+}
 .MuiCardActions-root {
   background-color: #f9f9f9;
 }
 .MuiFormControl-root {
-  margin: 10px 150px !important;
+  margin: 10px 0px !important;
+  float: left;
 }
 .MuiAvatar-root {
   width: 140px !important;
   height: 140px !important;
   margin: 50px auto;
 }
+.MuiSelect-select {
+  min-width: 170px !important;
+}
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.skill-set li:hover {
+  background: #3498db;
+}
+/* #resumeGen {
+  background-color: whitesmoke;
+} */
+
+#backbtn {
+  text-align-last: end;
+}
+
+#printbtn {
+  margin-right: 110px;
+  margin-top: 9px;
+  top: 0;
+  right: 0;
+  position: absolute;
+}
+#pdfGen .MuiButton-root {
+  background-color: black !important;
+  color: white !important;
+}
+.left {
+  margin: 210px auto;
+}
+.right {
+  margin-left: 60px;
+}
+.vl {
+  border-left: 1px solid black;
+}
+.skillSet .MuiButton-root {
+  margin: 4px;
+}
+@media all {
+  .page-break {
+    display: none;
+  }
+}
+
+@media print {
+  html,
+  body {
+    height: initial !important;
+    overflow: initial !important;
+    -webkit-print-color-adjust: exact;
+  }
+  .left {
+    margin-left: 18mm;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+}
+
+/* @media print {
+  .page-break {
+    margin-top: 1rem;
+    display: block;
+    page-break-before: auto;
+  }
+}
+
+@page {
+  size: auto;
+  margin: 20mm;
+} */

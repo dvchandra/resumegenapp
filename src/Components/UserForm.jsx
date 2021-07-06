@@ -7,12 +7,18 @@ import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 function UserForm(props) {
   const [userdata, setdata] = useState({
     fname: "",
     lname: "",
     age: "",
-    gender: ""
+    gender: "",
+    email: "",
+    address: "",
+    phoneno: ""
   });
   function handleChange(event) {
     const { name, value } = event.target;
@@ -30,7 +36,10 @@ function UserForm(props) {
       fname: "",
       lname: "",
       age: "",
-      gender: ""
+      gender: "",
+      email: "",
+      address: "",
+      phoneno: ""
     });
     event.preventDefault();
   }
@@ -52,8 +61,8 @@ function UserForm(props) {
       <Card>
         <CardContent>
           <form noValidate autoComplete="off">
-            <Grid container spacing={3} alignItems="center">
-              <Grid item xs={12} sm={12} md={6} lg={6}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
                 <TextField
                   name="fname"
                   id="fname"
@@ -61,9 +70,11 @@ function UserForm(props) {
                   variant="outlined"
                   value={userdata.fname}
                   onChange={handleChange}
+                  fullWidth
+                  required
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={6}>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
                 <TextField
                   name="lname"
                   id="lname"
@@ -71,9 +82,11 @@ function UserForm(props) {
                   variant="outlined"
                   value={userdata.lname}
                   onChange={handleChange}
+                  fullWidth
+                  required
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={6}>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
                 <TextField
                   name="age"
                   id="age"
@@ -81,16 +94,65 @@ function UserForm(props) {
                   variant="outlined"
                   value={userdata.age}
                   onChange={handleChange}
+                  fullWidth
+                  required
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={6}>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
+                <FormControl>
+                  <InputLabel htmlFor="gender">Gender</InputLabel>
+                  <Select
+                    native
+                    value={userdata.gender}
+                    onChange={handleChange}
+                    inputProps={{
+                      name: "gender",
+                      id: "gender"
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value={"Male"}>Male</option>
+                    <option value={"Female"}>Female</option>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
                 <TextField
-                  name="gender"
-                  id="gender"
-                  label="Gender"
+                  name="email"
+                  id="email"
+                  label="Email"
                   variant="outlined"
-                  value={userdata.gender}
+                  type="email"
+                  value={userdata.email}
                   onChange={handleChange}
+                  fullWidth
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
+                <TextField
+                  name="phoneno"
+                  id="phoneno"
+                  label="Phone Number"
+                  variant="outlined"
+                  type="phoneno"
+                  value={userdata.phoneno}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                <TextField
+                  name="address"
+                  id="address"
+                  label="Address"
+                  variant="outlined"
+                  type="address"
+                  value={userdata.address}
+                  onChange={handleChange}
+                  fullWidth
+                  required
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12}>
