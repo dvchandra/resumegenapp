@@ -17,7 +17,7 @@ footer {
   
 } */
 .MuiCard-root {
-  width: 50%;
+  width: 70%;
   margin: 2px auto;
 }
 .MuiCardActions-root {
@@ -109,3 +109,25 @@ footer {
   size: auto;
   margin: 20mm;
 } */
+@media screen and (max-width: 860px) {
+  .MuiCard-root {
+    width: 90%;
+  }
+  .MuiStepper-root {
+    padding: 1px !important;
+  }
+  .MuiTypography-body2 {
+    font-size: 0.65rem !important;
+  }
+  .MuiSvgIcon-root {
+    font-size: 0.95rem !important;
+  }
+}
+@media screen and (max-width: 948px) and (min-width: 865px) {
+  .MuiCard-root {
+    width: 80%;
+  }
+}
+.MuiFormControl-root {
+  width: 100%;
+}

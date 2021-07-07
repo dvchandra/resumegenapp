@@ -43,15 +43,16 @@ export class ResumeData extends React.PureComponent {
                 <section>
                   <h1>Employment</h1>
                   <p>
-                    Winter 2015 - Present{" "}
-                    <em>Grand Interactive, llc. | Mobile App Developer</em>
+                    {this.props.details.companyName}|{" "}
+                    {this.props.details.designation}
+                    <br />
+                    <br />
+                    <em>
+                      {this.props.details.durationFrom} -{" "}
+                      {this.props.details.durationTo}
+                    </em>
                   </p>
-                  <p>
-                    Raised $78,000 in early stage funding, created initial
-                    design concepts, and oversaw initial development. Currently
-                    oversee and maintain all front end code and server
-                    functionality.
-                  </p>
+                  <p>{this.props.details.achievements}</p>
                   <p>
                     Spring 2012 - Winter 2015 |{" "}
                     <em>PadMatcher Inc. | CTO, Co-Founder</em>
