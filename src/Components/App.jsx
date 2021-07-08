@@ -4,11 +4,11 @@ import UserForm from "./UserForm";
 import Footer from "./Footer";
 import PdfGen from "./pdfGen";
 export default function App() {
-  const [details, setdetails] = useState();
+  const [userdetails, setdetails] = useState([]);
   const [showResumePage, setResumePage] = useState(false);
   function addDetail(data) {
     setdetails((prevData) => {
-      return data;
+      return [...prevData, data];
     });
     setResumePage(true);
   }
@@ -19,7 +19,18 @@ export default function App() {
   return (
     <div className="App">
       {showResumePage ? (
-        <PdfGen backPage={pdfPageBack} details={details} />
+        <div>
+          {userdetails.map((details, index) => {
+            return (
+              <PdfGen
+                key={index}
+                id={index}
+                backPage={pdfPageBack}
+                details={details}
+              />
+            );
+          })}
+        </div>
       ) : (
         <div>
           <Header />

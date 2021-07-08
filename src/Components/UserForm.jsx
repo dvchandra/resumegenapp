@@ -10,6 +10,12 @@ import Grid from "@material-ui/core/Grid";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
+import Experience from "./experience";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import Tooltip from "@material-ui/core/Tooltip";
+import Alert from "@material-ui/lab/Alert";
+import ExpTable from "./expTable";
 function getSteps() {
   return ["Personal Details", "Experience", "Education"];
 }
@@ -22,12 +28,19 @@ function UserForm(props) {
     email: "",
     address: "",
     phoneno: "",
-    companyName: "",
-    designation: "",
-    durationFrom: "",
-    durationTo: "",
-    achievements: ""
+    experience: [
+      {
+        companyName: "",
+        designation: "",
+        durationFrom: "",
+        durationTo: "",
+        achievements: "",
+        id: "00"
+      }
+    ]
   });
+  const [addExpFlag, setExpFlag] = useState(false);
+  const [sucessFlag, setsucessFlag] = useState(false);
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -36,6 +49,26 @@ function UserForm(props) {
         ...prevData,
         [name]: value
       };
+    });
+  }
+  function handleAddExp() {
+    setExpFlag(true);
+    setsucessFlag(false);
+  }
+  function addExperience(userExp) {
+    setdata((prevData) => {
+      return { ...prevData, experience: [...prevData.experience, userExp] };
+    });
+    setExpFlag(false);
+    setsucessFlag(true);
+    removeEmptyData();
+  }
+  function removeEmptyData() {
+    setdata((prevData) => {
+      let exp = prevData.experience.filter((exp) => {
+        return exp.id !== "00";
+      });
+      return { ...prevData, experience: exp };
     });
   }
   const [activeStep, setActiveStep] = React.useState(0);
@@ -78,11 +111,11 @@ function UserForm(props) {
       return newSkipped;
     });
   };
-
   const handleReset = () => {
     setActiveStep(0);
   };
   function submitData(event) {
+    removeEmptyData();
     props.addUser(userdata);
     setdata({
       fname: "",
@@ -218,78 +251,44 @@ function UserForm(props) {
                       </div>
                     ) : activeStep === 1 ? (
                       <div className="experience">
-                        <Grid container spacing={3}>
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <TextField
-                              name="companyName"
-                              id="companyName"
-                              label="Company Name"
-                              variant="outlined"
-                              type="text"
-                              value={userdata.companyName}
-                              onChange={handleChange}
-                              fullWidth
-                              required
-                            />
-                          </Grid>
-
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <TextField
-                              name="designation"
-                              id="designation"
-                              label="Designation"
-                              variant="outlined"
-                              type="text"
-                              value={userdata.designation}
-                              onChange={handleChange}
-                              fullWidth
-                              required
-                            />
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <TextField
-                              name="durationFrom"
-                              id="durationFrom"
-                              label="Worked From"
-                              variant="outlined"
-                              type="date"
-                              value={userdata.durationFrom}
-                              onChange={handleChange}
-                              fullWidth
-                              required
-                              InputLabelProps={{
-                                shrink: true
-                              }}
-                            />
-                            <TextField
-                              name="durationTo"
-                              id="durationTo"
-                              label="Worked Till"
-                              variant="outlined"
-                              type="date"
-                              value={userdata.durationTo}
-                              onChange={handleChange}
-                              fullWidth
-                              required
-                              InputLabelProps={{
-                                shrink: true
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <TextField
-                              name="achievements"
-                              id="achievements"
-                              label="Achievements"
-                              variant="outlined"
-                              type="text"
-                              value={userdata.achievements}
-                              onChange={handleChange}
-                              fullWidth
-                              required
-                            />
-                          </Grid>
-                        </Grid>
+                        {sucessFlag && (
+                          <div>
+                            <Alert severity="success">
+                              Sucessfully added Experience!
+                            </Alert>
+                            {userdata.experience.map((exp, index) => {
+                              return (
+                                <ExpTable key={index} id={index} data={exp} />
+                              );
+                            })}
+                          </div>
+                        )}
+                        {addExpFlag ? (
+                          <div>
+                            {userdata.experience.map((exp, index) => {
+                              return (
+                                <Experience
+                                  key={index}
+                                  id={index}
+                                  addexpData={addExperience}
+                                  showData={
+                                    index === userdata.experience.length - 1
+                                  }
+                                />
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <Tooltip title="Add Experience" aria-label="add">
+                            <Fab
+                              color="primary"
+                              aria-label="add"
+                              onClick={handleAddExp}
+                            >
+                              <AddIcon />
+                            </Fab>
+                          </Tooltip>
+                        )}
                       </div>
                     ) : (
                       <h1>nothing</h1>

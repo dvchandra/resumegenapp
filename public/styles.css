@@ -131,3 +131,10 @@ footer {
 .MuiFormControl-root {
   width: 100%;
 }
+.MuiButtonBase-root {
+  margin-bottom: 20px !important;
+  margin-top: 10px !important;
+}
+.MuiButton-contained {
+  margin-right: 10px !important;
+}

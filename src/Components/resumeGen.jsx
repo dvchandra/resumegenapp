@@ -36,47 +36,33 @@ export class ResumeData extends React.PureComponent {
               <p>{this.props.details.phoneno}</p>
             </div>
           </Grid>
-          <div class="vl"></div>
+          <div className="vl"></div>
           <Grid item xs={12} sm={12} md={12} lg={7}>
             <div className="right">
               <div className="inner">
                 <section>
                   <h1>Employment</h1>
-                  <p>
-                    {this.props.details.companyName}|{" "}
-                    {this.props.details.designation}
-                    <br />
-                    <br />
-                    <em>
-                      {this.props.details.durationFrom} -{" "}
-                      {this.props.details.durationTo}
-                    </em>
-                  </p>
-                  <p>{this.props.details.achievements}</p>
-                  <p>
-                    Spring 2012 - Winter 2015 |{" "}
-                    <em>PadMatcher Inc. | CTO, Co-Founder</em>
-                  </p>
-                  <p>
-                    Raised $78,000 in early stage funding, created initial
-                    design concepts, and oversaw initial development. Oversaw
-                    and maintained all front end code and server functionality.
-                  </p>
-                  <p>
-                    Fall 2011 - Fall 2013 |{" "}
-                    <em>Penrose Realty llc. | Desinger & Assistant</em>
-                  </p>
-                  <p>
-                    Responsible for all technical areas. Maintain servers,
-                    computers, and provide in office technical support.
-                    Rebranded company from ground up including a fully
-                    responsive website.{" "}
-                  </p>
+                  {this.props.details.experience.map((expData, index) => {
+                    return (
+                      <div key={expData.id}>
+                        <p>
+                          {expData.companyName}| {expData.designation}
+                          <br />
+                          <br />
+                          <em>
+                            {expData.durationFrom} - {expData.durationTo}
+                          </em>
+                        </p>
+                        <p>{expData.achievements}</p>
+                        <hr />
+                      </div>
+                    );
+                  })}
                 </section>
                 <section>
                   <h1>Technical Skills</h1>
-                  {skillList.map((skill) => (
-                    <span class="skillSet">
+                  {skillList.map((skill, index1) => (
+                    <span className="skillSet" key={index1}>
                       <Button size="small" variant="contained">
                         {skill}
                       </Button>
@@ -100,8 +86,8 @@ export class ResumeData extends React.PureComponent {
                 </section>
                 <section>
                   <h1>Personal Interests</h1>
-                  {intList.map((interest) => (
-                    <span class="skillSet">
+                  {intList.map((interest, index2) => (
+                    <span className="skillSet" key={index2}>
                       <Button size="small" variant="contained">
                         {interest}
                       </Button>
