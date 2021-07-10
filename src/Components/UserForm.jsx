@@ -16,6 +16,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 import Alert from "@material-ui/lab/Alert";
 import ExpTable from "./expTable";
+import axios from 'axios';
 function getSteps() {
   return ["Personal Details", "Experience", "Education"];
 }
@@ -117,6 +118,18 @@ function UserForm(props) {
   function submitData(event) {
     removeEmptyData();
     props.addUser(userdata);
+    const {fname,lname,age,gender,email,address,phoneno,experience} = userdata
+        const body = {
+  fname,lname,age,gender,email,address,phoneno,experience
+  };
+
+  axios
+    .post('/post', body)
+    .then(() => console.log('Resume Created'))
+    .catch(err => {
+      console.error(err);
+    });
+
     setdata({
       fname: "",
       lname: "",
@@ -150,7 +163,7 @@ function UserForm(props) {
       </Grid>
       <Card>
         <CardContent>
-          <form noValidate autoComplete="off">
+          <form method="POST" noValidate autoComplete="off">
             <div className="stepper">
               <Stepper activeStep={activeStep}>
                 {steps.map((label, index) => {
