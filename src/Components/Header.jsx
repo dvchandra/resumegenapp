@@ -1,37 +1,24 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
-    flexGrow: 1
-  },
-  appHead: {
-    background: "#39A2DB"
+
+export default function HeaderNav(props) {
+  function SignOut() {
+    props.authenticate(false);
   }
-}));
-
-export default function DenseAppBar() {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      <AppBar position="static" className={classes.appHead}>
-        <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.title}>
-            Resume Gen App
-          </Typography>
-          <AccountCircleIcon className={classes.menuButton} />
-        </Toolbar>
-      </AppBar>
+    <div>
+      <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 className="my-0 mr-md-auto font-weight-normal">Resume Gen App</h5>
+        <nav className="my-2 my-md-0 mr-md-3">
+          <a className="p-2 text-dark">Home</a>
+          <a className="p-2 text-dark">About</a>
+          <a className="p-2 text-dark">Contact</a>
+        </nav>
+        {props.loginState && (
+          <button className="btn btn-outline-primary" onClick={SignOut}>
+            Sign Out
+          </button>
+        )}
+      </div>
     </div>
   );
 }

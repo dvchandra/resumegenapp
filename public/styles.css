@@ -5,14 +5,6 @@
   height: 100% !important;
   background-color: #ffd8cc;
 }
-footer {
-  background-color: #94d0cc;
-  height: 8%;
-  bottom: 0;
-  width: 100%;
-  padding: 1px 0px;
-  margin: 40px 0px 0px;
-}
 /* .MuiCardContent-root {
   
 } */
@@ -61,7 +53,7 @@ footer {
   right: 0;
   position: absolute;
 }
-#pdfGen .MuiButton-root {
+.pdfGen {
   background-color: black !important;
   color: white !important;
 }
@@ -137,4 +129,25 @@ footer {
 }
 .MuiButton-contained {
   margin-right: 10px !important;
+}
+.border-bottom {
+  border-bottom: 1px solid #dee2e6 !important;
+}
+
+footer,
+header {
+  display: block;
+}
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+footer {
+  position: relative;
+  left: 0;
+  bottom: 0;
+}
+.pageContent {
+  min-height: calc(100vh - 110px);
 }

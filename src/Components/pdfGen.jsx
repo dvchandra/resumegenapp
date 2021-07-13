@@ -12,10 +12,10 @@ const Resume = (props) => {
 
   return (
     <div>
-      <div id="printbtn">
-        <Button variant="contained" color="primary" onClick={handlePrint}>
+      <div>
+        <button className="btn float-left ml-5 pdfGen" onClick={handlePrint}>
           <PrintIcon />
-        </Button>
+        </button>
       </div>
       <ResumeData details={props.details} ref={componentRef} />
     </div>
@@ -24,9 +24,9 @@ const Resume = (props) => {
 
 export default function PdfGen(props) {
   return (
-    <div id="pdfGen">
+    <div>
       <div id="backbtn">
-        <Button variant="outlined" onClick={props.backPage}>
+        <Button className="pdfGen" variant="outlined" onClick={props.backPage}>
           <KeyboardBackspaceIcon /> Back
         </Button>
       </div>
