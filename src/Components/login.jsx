@@ -9,6 +9,7 @@ export default function Login(props) {
     email: "",
     password: ""
   });
+  const [signupFlag, setsignupFlag] = useState(false);
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -27,17 +28,29 @@ export default function Login(props) {
     //     console.error(err);
     //   });
   }
+  function signupPage(event) {
+    event.preventDefault();
+    setsignupFlag(true);
+  }
+  function signupUser(event) {
+    event.preventDefault();
+    setsignupFlag(false);
+  }
   function signupverify(event) {
     event.preventDefault();
     props.authenticate(true);
   }
   return (
     <div className="row">
-      <div className="col-lg-8 ">
+      <div className="col-lg-8 col-sm-8 col-xs-8 loginForm">
         <div className="card ml-5">
           <div className="card-body">
             <form method="POST" noValidate autoComplete="off">
-              <Typography>Login</Typography>
+              {signupFlag ? (
+                <Typography>Sign up</Typography>
+              ) : (
+                <Typography>Login</Typography>
+              )}
 
               <div className="row">
                 <div className="col-lg-8">
@@ -65,14 +78,26 @@ export default function Login(props) {
                   />
                 </div>
               </div>
-              <button className="btn btn-primary" onClick={signupverify}>
-                signup
-              </button>
+              {signupFlag ? (
+                <button className="btn btn-dark mr-2" onClick={signupUser}>
+                  Sign up
+                </button>
+              ) : (
+                <div>
+                  <button className="btn btn-dark mr-2" onClick={signupPage}>
+                    Sign up
+                  </button>
+
+                  <button className="btn btn-primary" onClick={signupverify}>
+                    Login
+                  </button>
+                </div>
+              )}
             </form>
           </div>
         </div>
       </div>
-      <div className="col-lg-4 pl-0 pr-0">
+      <div className="col-lg-4 col-sm-4 col-xs-4 socialMedBtn">
         <Card>
           <CardContent>
             <div>
