@@ -8,6 +8,7 @@ export default function App() {
   const [userdetails, setdetails] = useState([]);
   const [showResumePage, setResumePage] = useState(false);
   const [authenFlag, setauthenFlag] = useState(false);
+  const [loggedData, setloggedData] = useState({data:"",flag:""});
   function addDetail(data) {
     setdetails((prevData) => {
       return [...prevData, data];
@@ -21,6 +22,10 @@ export default function App() {
   function userAuthenticate(value) {
     setauthenFlag(value);
     setResumePage(false);
+  }
+  function loggedinUser(value) {
+    setloggedData(()=>{return{data:value.data,flag:value.flag}});
+    userAuthenticate(value.flag);
   }
   return (
     <div className="App">
@@ -43,12 +48,12 @@ export default function App() {
               </div>
             ) : (
               <div>
-                <UserForm addUser={addDetail} />
+                <UserForm addUser={addDetail} userData={loggedData.data}/>
               </div>
             )}
           </div>
         ) : (
-          <Login authenticate={userAuthenticate} />
+          <Login authenticate={loggedinUser} />
         )}
       </div>
       <Footer />

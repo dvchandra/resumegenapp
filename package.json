@@ -1,7 +1,7 @@
 {
   "name": "resumegenapp",
   "version": "1.0.0",
-  "proxy": "http://localhost:8080",
+  "proxy": "https://resume-genapp-bend.herokuapp.com/",
   "description": "",
   "keywords": [],
   "main": "src/index.js",

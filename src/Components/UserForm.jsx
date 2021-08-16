@@ -118,13 +118,14 @@ function UserForm(props) {
   function submitData(event) {
     removeEmptyData();
     props.addUser(userdata);
-    const {fname,lname,age,gender,email,address,phoneno,experience} = userdata
+    const {fname,lname,age,gender,email,address,phoneno,experience} = userdata;
+    const objId= props.userData;
         const body = {
-  fname,lname,age,gender,email,address,phoneno,experience
+  fname,lname,age,gender,email,address,phoneno,experience,objId
   };
 
   axios
-    .post('/post', body)
+    .post('/sendResumeData', body)
     .then(() => console.log('Resume Created'))
     .catch(err => {
       console.error(err);
