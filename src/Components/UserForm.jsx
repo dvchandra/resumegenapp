@@ -125,7 +125,7 @@ function UserForm(props) {
   };
 
   axios
-    .post('/sendResumeData', body)
+    .post('https://resume-genapp-bend.herokuapp.com/sendResumeData', body)
     .then(() => console.log('Resume Created'))
     .catch(err => {
       console.error(err);
