@@ -45,7 +45,7 @@ export default function Login(props) {
     const id = Math.floor(Math.random()*100000);
     const body={id,email,password,name};
     axios
-    .post('/signup', body)
+    .post('https://resume-genapp-bend.herokuapp.com/signup', body)
     .then(res =>{ setsignupData(() => {
       return {
         data:res.data.signup,
