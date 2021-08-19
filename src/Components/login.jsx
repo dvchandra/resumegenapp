@@ -64,7 +64,7 @@ export default function Login(props) {
     const {email,password}=loginData;
     const body={email,password};
     await axios
-    .post('/loginUser', body)
+    .post('https://resume-genapp-bend.herokuapp.com/loginUser', body)
     .then(res =>
       {setloggedinData(()=>{
         return {
