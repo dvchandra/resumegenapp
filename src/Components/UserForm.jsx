@@ -6,7 +6,6 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -16,7 +15,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 import Alert from "@material-ui/lab/Alert";
 import ExpTable from "./expTable";
-import axios from 'axios';
+import axios from "axios";
 function getSteps() {
   return ["Personal Details", "Experience", "Education"];
 }
@@ -29,6 +28,9 @@ function UserForm(props) {
     email: "",
     address: "",
     phoneno: "",
+    linkdn: "",
+    curPosition: "",
+    profileDesc: "",
     experience: [
       {
         companyName: "",
@@ -118,18 +120,41 @@ function UserForm(props) {
   function submitData(event) {
     removeEmptyData();
     props.addUser(userdata);
-    const {fname,lname,age,gender,email,address,phoneno,experience} = userdata;
-    const objId= props.userData;
-        const body = {
-  fname,lname,age,gender,email,address,phoneno,experience,objId
-  };
+    const {
+      fname,
+      lname,
+      age,
+      gender,
+      email,
+      address,
+      phoneno,
+      linkdn,
+      curPosition,
+      profileDesc,
+      experience
+    } = userdata;
+    const objId = props.userData;
+    const body = {
+      fname,
+      lname,
+      age,
+      gender,
+      email,
+      address,
+      phoneno,
+      experience,
+      linkdn,
+      curPosition,
+      profileDesc,
+      objId
+    };
 
-  axios
-    .post('https://resume-genapp-bend.herokuapp.com/sendResumeData', body)
-    .then(() => console.log('Resume Created'))
-    .catch(err => {
-      console.error(err);
-    });
+    axios
+      .post("https://resume-genapp-bend.herokuapp.com/sendResumeData", body)
+      .then(() => console.log("Resume Created"))
+      .catch((err) => {
+        console.error(err);
+      });
 
     setdata({
       fname: "",
@@ -143,27 +168,28 @@ function UserForm(props) {
       designation: "",
       durationFrom: "",
       durationTo: "",
-      achievements: ""
+      achievements: "",
+      linkdn: "",
+      curPosition: "",
+      profileDesc: ""
     });
     event.preventDefault();
   }
   return (
     <div className="userForm">
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      <div>
+        <div>
           <Avatar
             alt="Remy Sharp"
             src="https://image.flaticon.com/icons/png/512/2922/2922506.png"
           />
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h4" component="h4">
-            welcome , User
-          </Typography>
-        </Grid>
-      </Grid>
-      <Card>
-        <CardContent>
+        </div>
+        <div>
+          <h4>Welcome , {props.name}</h4>
+        </div>
+      </div>
+      <div className="card shadow-sm p-3 mb-5 bg-white rounded">
+        <div className="card-body">
           <form method="POST" noValidate autoComplete="off">
             <div className="stepper">
               <Stepper activeStep={activeStep}>
@@ -197,8 +223,8 @@ function UserForm(props) {
                   <div>
                     {activeStep === 0 ? (
                       <div className="personal">
-                        <Grid container spacing={3}>
-                          <Grid item xs={12} sm={12} md={12} lg={6}>
+                        <div className="form-inline">
+                          <div className="col-lg-6">
                             <TextField
                               name="fname"
                               id="fname"
@@ -209,8 +235,8 @@ function UserForm(props) {
                               fullWidth
                               required
                             />
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={12} lg={6}>
+                          </div>
+                          <div className="col-lg-6">
                             <TextField
                               name="lname"
                               id="lname"
@@ -221,8 +247,8 @@ function UserForm(props) {
                               fullWidth
                               required
                             />
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={12} lg={6}>
+                          </div>
+                          <div className="col-lg-6">
                             <TextField
                               name="email"
                               id="email"
@@ -234,8 +260,8 @@ function UserForm(props) {
                               fullWidth
                               required
                             />
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={12} lg={6}>
+                          </div>
+                          <div className="col-lg-6">
                             <TextField
                               name="phoneno"
                               id="phoneno"
@@ -247,8 +273,8 @@ function UserForm(props) {
                               fullWidth
                               required
                             />
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
+                          </div>
+                          <div className="col-lg-12">
                             <TextField
                               name="address"
                               id="address"
@@ -260,8 +286,47 @@ function UserForm(props) {
                               fullWidth
                               required
                             />
-                          </Grid>
-                        </Grid>
+                          </div>
+                          <div className="col-lg-6">
+                            <TextField
+                              name="linkdn"
+                              id="linkdn"
+                              label="Linkdn Address"
+                              variant="outlined"
+                              type="linkdn"
+                              value={userdata.linkdn}
+                              onChange={handleChange}
+                              fullWidth
+                              required
+                            />
+                          </div>
+                          <div className="col-lg-6">
+                            <TextField
+                              name="curPosition"
+                              id="curPosition"
+                              label="Current Position"
+                              variant="outlined"
+                              type="curPosition"
+                              value={userdata.curPosition}
+                              onChange={handleChange}
+                              fullWidth
+                              required
+                            />
+                          </div>
+                          <div className="col-lg-12">
+                            <TextField
+                              name="profileDesc"
+                              id="profileDesc"
+                              label="Brief Description"
+                              variant="outlined"
+                              type="profileDesc"
+                              value={userdata.profileDesc}
+                              onChange={handleChange}
+                              fullWidth
+                              required
+                            />
+                          </div>
+                        </div>
                       </div>
                     ) : activeStep === 1 ? (
                       <div className="experience">
@@ -344,9 +409,8 @@ function UserForm(props) {
               </div>
             </div>
           </form>
-        </CardContent>
-        <CardActions></CardActions>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

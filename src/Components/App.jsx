@@ -7,8 +7,12 @@ import Login from "./login";
 export default function App() {
   const [userdetails, setdetails] = useState([]);
   const [showResumePage, setResumePage] = useState(false);
-  const [authenFlag, setauthenFlag] = useState(false);
-  const [loggedData, setloggedData] = useState({data:"",flag:""});
+  const [authenFlag, setauthenFlag] = useState(true);
+  const [loggedData, setloggedData] = useState({
+    name: "",
+    data: "",
+    flag: ""
+  });
   function addDetail(data) {
     setdetails((prevData) => {
       return [...prevData, data];
@@ -24,7 +28,9 @@ export default function App() {
     setResumePage(false);
   }
   function loggedinUser(value) {
-    setloggedData(()=>{return{data:value.data,flag:value.flag}});
+    setloggedData(() => {
+      return { name: value.name, data: value.data, flag: value.flag };
+    });
     userAuthenticate(value.flag);
   }
   return (
@@ -48,7 +54,11 @@ export default function App() {
               </div>
             ) : (
               <div>
-                <UserForm addUser={addDetail} userData={loggedData.data}/>
+                <UserForm
+                  addUser={addDetail}
+                  userData={loggedData.data}
+                  name={loggedData.name}
+                />
               </div>
             )}
           </div>

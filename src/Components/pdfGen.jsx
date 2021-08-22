@@ -1,23 +1,29 @@
 import React, { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
 import { ResumeData } from "./resumeGen";
-import Button from "@material-ui/core/Button";
-import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import PrintIcon from "@material-ui/icons/Print";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 const Resume = (props) => {
   const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current
-  });
-
+  function printDocument() {
+    const input = document.getElementById("resumePrintPage");
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, "JPEG", 10, 10, 190, 200);
+      pdf.save("download.pdf");
+    });
+  }
   return (
     <div>
       <div>
-        <button className="btn float-left ml-5 pdfGen" onClick={handlePrint}>
-          <PrintIcon />
+        <button
+          className="btn btn-dark btn-circle float-right ml-2 "
+          onClick={printDocument}
+        >
+          <i class="fas fa-print fa-2x"></i>
         </button>
       </div>
-      <ResumeData details={props.details} ref={componentRef} />
+      <ResumeData id="ResumeData" details={props.details} ref={componentRef} />
     </div>
   );
 };
@@ -26,9 +32,12 @@ export default function PdfGen(props) {
   return (
     <div>
       <div id="backbtn">
-        <Button className="pdfGen" variant="outlined" onClick={props.backPage}>
-          <KeyboardBackspaceIcon /> Back
-        </Button>
+        <button
+          className="btn btn-dark btn-circle  float-right ml-3 mr-5"
+          onClick={props.backPage}
+        >
+          <i class="fas fa-long-arrow-alt-left fa-3x mr-2"></i>
+        </button>
       </div>
       <Resume details={props.details} />
     </div>
