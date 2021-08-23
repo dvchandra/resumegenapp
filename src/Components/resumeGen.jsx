@@ -36,11 +36,24 @@ export class ResumeData extends React.PureComponent {
             <div className="leftData mt-5">
               <h4 className="leftHeader text-uppercase">Education</h4>
               <hr className="leftHeaderLine" />
-              <div className="leftHeader mt-3">
-                <p className="text-uppercase">10th</p>
-                <p>{this.props.details.address}</p>
-                <p>{this.props.details.email}</p>
-                <p>{this.props.details.phoneno}</p>
+              <div className="leftHeader mt-3 ml-4">
+                {this.props.details.education.map((eduData, index) => {
+                  return (
+                    <ul>
+                      <li>
+                        <div key={eduData.id}>
+                          <p className="text-uppercase mt-2">
+                            {eduData.degree}/{eduData.major}
+                          </p>
+                          <p>{eduData.institurName}</p>
+                          <p className="mt--1">
+                            {eduData.durationFrom} - {eduData.durationTo}
+                          </p>
+                        </div>
+                      </li>
+                    </ul>
+                  );
+                })}
               </div>
             </div>
             <div className="leftData mt-5 mb-5">
@@ -85,7 +98,7 @@ export class ResumeData extends React.PureComponent {
                           <p className="mt--1">
                             {expData.durationFrom} - {expData.durationTo}
                           </p>
-                          <p>{expData.achievements}</p>
+                          <p>{expData.workDesc}</p>
                           <ul>
                             <li className="projListitem">point 1</li>
                             <li className="projListitem">point 1</li>
@@ -104,13 +117,15 @@ export class ResumeData extends React.PureComponent {
               </h4>
               <hr className="rightHeaderLine" />
               <div className="rightlistData">
-                {skillList.map((skill, index1) => (
-                  <span className="skillSet" key={index1}>
-                    <button className="btn btn-outline-secondary ml-1 mt-1">
-                      {skill}
-                    </button>
-                  </span>
-                ))}
+                {this.props.details.toolsUsed.map((tool, indexT) => {
+                  return (
+                    <span className="skillSet" key={indexT}>
+                      <button className="btn btn-outline-secondary ml-1 mt-1">
+                        {tool}
+                      </button>
+                    </span>
+                  );
+                })}
               </div>
             </div>
             <div className="mt-5">

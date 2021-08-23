@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
@@ -14,8 +11,8 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 import Alert from "@material-ui/lab/Alert";
-import ExpTable from "./expTable";
 import axios from "axios";
+import Education from "./education";
 function getSteps() {
   return ["Personal Details", "Experience", "Education"];
 }
@@ -37,13 +34,27 @@ function UserForm(props) {
         designation: "",
         durationFrom: "",
         durationTo: "",
-        achievements: "",
+        workDesc: "",
         id: "00"
       }
-    ]
+    ],
+    education: [
+      {
+        institurName: "",
+        degree: "",
+        durationFrom: "",
+        durationTo: "",
+        major: "",
+        id: "00"
+      }
+    ],
+    toolsUsed: []
   });
   const [addExpFlag, setExpFlag] = useState(false);
+  const [addEduFlag, setEduFlag] = useState(false);
   const [sucessFlag, setsucessFlag] = useState(false);
+  const [sucessEduFlag, setsucessEduFlag] = useState(false);
+  const [toolusedFlag, setToolusedFlag] = useState(false);
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -57,6 +68,21 @@ function UserForm(props) {
   function handleAddExp() {
     setExpFlag(true);
     setsucessFlag(false);
+    setToolusedFlag(false);
+  }
+  function handleAddEdu() {
+    setEduFlag(true);
+    setsucessEduFlag(false);
+  }
+  function handleAddTools() {
+    setToolusedFlag(true);
+  }
+  function addtoolList() {
+    const toolData = document.getElementById("toolInputValue").value;
+    setdata((prevData) => {
+      return { ...prevData, toolsUsed: [...prevData.toolsUsed, toolData] };
+    });
+    document.getElementById("toolInputValue").value = "";
   }
   function addExperience(userExp) {
     setdata((prevData) => {
@@ -66,12 +92,28 @@ function UserForm(props) {
     setsucessFlag(true);
     removeEmptyData();
   }
+  function addEducation(userEdu) {
+    setdata((prevData) => {
+      return { ...prevData, education: [...prevData.education, userEdu] };
+    });
+    setEduFlag(false);
+    setsucessEduFlag(true);
+    removeEmptyEduData();
+  }
   function removeEmptyData() {
     setdata((prevData) => {
       let exp = prevData.experience.filter((exp) => {
         return exp.id !== "00";
       });
       return { ...prevData, experience: exp };
+    });
+  }
+  function removeEmptyEduData() {
+    setdata((prevData) => {
+      let edu = prevData.education.filter((edu) => {
+        return edu.id !== "00";
+      });
+      return { ...prevData, education: edu };
     });
   }
   const [activeStep, setActiveStep] = React.useState(0);
@@ -168,7 +210,7 @@ function UserForm(props) {
       designation: "",
       durationFrom: "",
       durationTo: "",
-      achievements: "",
+      workDesc: "",
       linkdn: "",
       curPosition: "",
       profileDesc: ""
@@ -335,11 +377,65 @@ function UserForm(props) {
                             <Alert severity="success">
                               Sucessfully added Experience!
                             </Alert>
-                            {userdata.experience.map((exp, index) => {
-                              return (
-                                <ExpTable key={index} id={index} data={exp} />
-                              );
-                            })}
+                            <div>
+                              <table className="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Company Name</th>
+                                    <th scope="col">Designation</th>
+                                    <th scope="col">Duration From</th>
+                                    <th scope="col">Duration To</th>
+                                    <th scope="col">
+                                      Roles and Responsibility
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {userdata.experience.map((exp, index) => {
+                                    return (
+                                      <tr>
+                                        <th scope="row">{exp.companyName}</th>
+                                        <td>{exp.designation}</td>
+                                        <td>{exp.durationFrom}</td>
+                                        <td>{exp.durationTo}</td>
+                                        <td>{exp.workDesc}</td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        )}
+                        {toolusedFlag && (
+                          <div>
+                            <div class="input-group input-group-lg">
+                              <input
+                                type="text"
+                                class="form-control"
+                                aria-label="Large"
+                                aria-describedby="inputGroup-sizing-sm"
+                                id="toolInputValue"
+                              />
+                              <div class="input-group-append">
+                                <button
+                                  class="btn btn-outline-secondary"
+                                  type="button"
+                                  onClick={addtoolList}
+                                >
+                                  Add Tool
+                                </button>
+                              </div>
+                            </div>
+                            <div className="mt-2">
+                              {userdata.toolsUsed.map((tool, index) => {
+                                return (
+                                  <button className="btn btn-outline-secondary ml-1 mt-1">
+                                    {tool}
+                                  </button>
+                                );
+                              })}
+                            </div>
                           </div>
                         )}
                         {addExpFlag ? (
@@ -358,19 +454,95 @@ function UserForm(props) {
                             })}
                           </div>
                         ) : (
-                          <Tooltip title="Add Experience" aria-label="add">
+                          <div>
+                            <Tooltip title="Add Experience" aria-label="add">
+                              <Fab
+                                color="primary"
+                                aria-label="add"
+                                onClick={handleAddExp}
+                              >
+                                <AddIcon />
+                              </Fab>
+                            </Tooltip>
+                            <span className="ml-3">
+                              <Tooltip title="Add Tools used" aria-label="add">
+                                <Fab
+                                  color="default"
+                                  aria-label="add"
+                                  onClick={handleAddTools}
+                                >
+                                  <AddIcon />
+                                </Fab>
+                              </Tooltip>
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="education">
+                        {sucessEduFlag && (
+                          <div>
+                            <Alert severity="success">
+                              Sucessfully added Education!
+                            </Alert>
+                            <div>
+                              <table className="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Institute Name</th>
+                                    <th scope="col">Degree</th>
+                                    <th scope="col">Major</th>
+                                    <th scope="col">Duration From</th>
+                                    <th scope="col">Duration To</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {userdata.education.map((edu, index) => {
+                                    return (
+                                      <tr>
+                                        <th scope="row">{edu.institurName}</th>
+                                        <td>{edu.degree}</td>
+                                        <td>{edu.major}</td>
+                                        <td>{edu.durationFrom}</td>
+                                        <td>{edu.durationTo}</td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        )}
+                        {addEduFlag ? (
+                          <div>
+                            {userdata.education.map((edu, index) => {
+                              return (
+                                <Education
+                                  key={index}
+                                  id={index}
+                                  addeduData={addEducation}
+                                  showData={
+                                    index === userdata.education.length - 1
+                                  }
+                                />
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <Tooltip
+                            title="Add Education Details"
+                            aria-label="add"
+                          >
                             <Fab
                               color="primary"
                               aria-label="add"
-                              onClick={handleAddExp}
+                              onClick={handleAddEdu}
                             >
                               <AddIcon />
                             </Fab>
                           </Tooltip>
                         )}
                       </div>
-                    ) : (
-                      <h1>nothing</h1>
                     )}
                     <div>
                       <Button disabled={activeStep === 0} onClick={handleBack}>
