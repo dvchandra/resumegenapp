@@ -8,13 +8,16 @@ export default function Login(props) {
   const [loginData, setloginData] = useState({
     email: "",
     password: "",
-    name:""
+    name: ""
   });
-  const [loggedinData , setloggedinData] = useState({
-    data:"",flag:"",name:""
+  const [loggedinData, setloggedinData] = useState({
+    data: "",
+    flag: "",
+    name: ""
   });
-  const [signupData,setsignupData] = useState({
-    data:"",flag:""
+  const [signupData, setsignupData] = useState({
+    data: "",
+    flag: ""
   });
   const [signupFlag, setsignupFlag] = useState(false);
   function handleChange(event) {
@@ -40,96 +43,115 @@ export default function Login(props) {
     clearValue();
   }
   function signupUser(event) {
-
-    const {email,password,name}=loginData;
-    const id = Math.floor(Math.random()*100000);
-    const body={id,email,password,name};
+    const { email, password, name } = loginData;
+    const id = Math.floor(Math.random() * 100000);
+    const body = { id, email, password, name };
     axios
-    .post('https://resume-genapp-bend.herokuapp.com/signup', body)
-    .then(res =>{ setsignupData(() => {
-      return {
-        data:res.data.signup,
-      flag:res.data.flag}})})
-    .catch(err => {
-      console.error(err);
-    });
-    if(signupData.flag===true){
-   setsignupFlag(false);
-   clearValue();
+      .post("https://resume-genapp-bend.herokuapp.com/signup", body)
+      .then((res) => {
+        setsignupData(() => {
+          return {
+            data: res.data.signup,
+            flag: res.data.flag
+          };
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    if (signupData.flag === true) {
+      setsignupFlag(false);
+      clearValue();
+    }
   }
-}
   async function signupverify(event) {
     event.preventDefault();
-    let passVal=false;
-    const {email,password}=loginData;
-    const body={email,password};
+    let passVal = false;
+    const { email, password } = loginData;
+    const body = { email, password };
     await axios
-    .post('https://resume-genapp-bend.herokuapp.com/loginUser', body)
-    .then(res =>
-      {setloggedinData(()=>{
-        return {
-          data:res.data.userId?res.data.userId:res.data.err,
-          name:res.data.name?res.data.name:"",
-          flag:res.data.flag
-    }})
+      .post("https://resume-genapp-bend.herokuapp.com/loginUser", body)
+      .then((res) => {
+        setloggedinData(() => {
+          return {
+            data: res.data.userId ? res.data.userId : res.data.err,
+            name: res.data.name ? res.data.name : "",
+            flag: res.data.flag
+          };
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        setloggedinData(() => {
+          return { data: "Data not matched", flag: false };
+        });
+      });
+    props.authenticate(loggedinData);
   }
-).catch(err => {
-      console.error(err);
-      setloggedinData(()=>{
-        return {data:"Data not matched",flag:false}}
-      )
-    })
-props.authenticate(loggedinData);
-}
-  function clearValue(){
+  function clearValue() {
     setloggedinData({
-      data:"",flag:""
+      data: "",
+      flag: ""
     });
     setloginData({
       email: "",
       password: ""
     });
     setsignupData({
-      data:"",flag:""
+      data: "",
+      flag: ""
     });
   }
   function avoidPost(event) {
-    event.preventDefault()
+    event.preventDefault();
   }
   return (
     <div className="row">
       <div className="col-lg-8 col-sm-8 col-xs-8 loginForm">
-        <div className="card ml-5">
+        <div className="card shadow-sm ml-5">
           <div className="card-body">
-            <form method="POST" noValidate autoComplete="off" onClick={avoidPost}>
+            <form
+              method="POST"
+              noValidate
+              autoComplete="off"
+              onClick={avoidPost}
+            >
               {signupFlag ? (
                 <Typography>Sign up</Typography>
               ) : (
                 <Typography>Login</Typography>
               )}
-              {signupData.flag===true &&(<div className="alert alert-success" role="alert">
-{signupData.data}
-</div>)}
-{signupData.flag===false && (<div className="alert alert-danger" role="alert">
-  {signupData.data}
-</div>)}
-{loggedinData.flag===false && (<div className="alert alert-danger" role="alert">
-  {loggedinData.data}
-</div>)}
+              {signupData.flag === true && (
+                <div className="alert alert-success" role="alert">
+                  {signupData.data}
+                </div>
+              )}
+              {signupData.flag === false && (
+                <div className="alert alert-danger" role="alert">
+                  {signupData.data}
+                </div>
+              )}
+              {loggedinData.flag === false && (
+                <div className="alert alert-danger" role="alert">
+                  {loggedinData.data}
+                </div>
+              )}
 
               <div className="row">
-              {signupFlag && <div className="col-lg-8">
-                <TextField
-                  name="name"
-                  id="name"
-                  label="User Name"
-                  variant="outlined"
-                  type="text"
-                  value={loginData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>}
+                {signupFlag && (
+                  <div className="col-lg-8">
+                    <TextField
+                      name="name"
+                      id="name"
+                      label="User Name"
+                      variant="outlined"
+                      type="text"
+                      value={loginData.name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                )}
                 <div className="col-lg-8">
                   <TextField
                     name="email"
@@ -156,29 +178,32 @@ props.authenticate(loggedinData);
                 </div>
               </div>
               <div>
-              <button className="btn btn-dark mr-2" onClick={clearValue}>
-              Reset
-              </button>
-              {signupFlag ? (
-                <span>
-                <button className="btn btn-primary mr-2" onClick={signupUser}>
-                  Sign up
+                <button className="btn btn-dark mr-2" onClick={clearValue}>
+                  Reset
                 </button>
-                <button className="btn btn-dark mr-2" onClick={signupPage}>
-                Click for Login
-                </button>
-                </span>
-              ) : (
-                <span>
-                  <button className="btn btn-dark mr-2" onClick={signupPage}>
-                    Click for Sign up
-                  </button>
+                {signupFlag ? (
+                  <span>
+                    <button
+                      className="btn btn-primary mr-2"
+                      onClick={signupUser}
+                    >
+                      Sign up
+                    </button>
+                    <button className="btn btn-dark mr-2" onClick={signupPage}>
+                      Click for Login
+                    </button>
+                  </span>
+                ) : (
+                  <span>
+                    <button className="btn btn-dark mr-2" onClick={signupPage}>
+                      Click for Sign up
+                    </button>
 
-                  <button className="btn btn-primary" onClick={signupverify}>
-                    Login
-                  </button>
-                </span>
-              )}
+                    <button className="btn btn-primary" onClick={signupverify}>
+                      Login
+                    </button>
+                  </span>
+                )}
               </div>
             </form>
           </div>

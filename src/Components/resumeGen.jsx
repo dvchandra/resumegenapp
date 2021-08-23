@@ -1,21 +1,9 @@
 import React from "react";
-const skillList = [
-  "Mobile Development",
-  "Xamarin",
-  "CSS3",
-  "Adobe Photoshop",
-  "HTML5",
-  "CSS3",
-  "JQUERY",
-  "UI Design",
-  "Company Branding",
-  "Responsive Web Design"
-];
 export class ResumeData extends React.PureComponent {
   render() {
     return (
       <div id="resumePrintPage" className="row nopadding">
-        <div className="form-inline nopadding mt-3">
+        <div className="form-inline w-100 mt-3">
           <div className="leftSide ml-5 col-lg-3 col-md-3 col-sm-4 col-xs-5 ">
             <div className="mt-5 profileIcon">
               <i className="fas fa-user-circle"></i>
@@ -60,7 +48,7 @@ export class ResumeData extends React.PureComponent {
               <h4 className="leftHeader text-uppercase">Technical Skills</h4>
               <hr className="leftHeaderLine" />
               <div className="leftHeader mt-3">
-                {skillList.map((skill, index1) => (
+                {this.props.details.technicalSkills.map((skill, index1) => (
                   <span className="skillSet" key={index1}>
                     <button className="btn btn-outline-secondary ml-1 mt-1">
                       {skill}
@@ -135,18 +123,13 @@ export class ResumeData extends React.PureComponent {
               <hr className="rightHeaderLine" />
               <div className="rightlistData">
                 <ul>
-                  <li>
-                    William Grand | <em>Grand Interactive, llc. | CEO</em>
-                  </li>
-                  <li>(617) 448-0910 | wgrand@grandinteractive.com</li>
-                  <li>
-                    Eric Chauvin | <em>PadMatcher Inc. | CEO</em>
-                  </li>
-                  <li>(617) 448-0910 | eric@padmatcher.com</li>
-                  <li>
-                    Chris Heller <em>Penrose Realty LLC. | Broker</em>
-                  </li>
-                  <li>(617) 794-4554 | chris@penroserealty.com</li>
+                  {this.props.details.certificates.map((certi, indexC) => {
+                    return (
+                      <span key={indexC}>
+                        <li>{certi}</li>
+                      </span>
+                    );
+                  })}
                 </ul>
               </div>
             </div>

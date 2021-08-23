@@ -7,7 +7,7 @@ import Login from "./login";
 export default function App() {
   const [userdetails, setdetails] = useState([]);
   const [showResumePage, setResumePage] = useState(false);
-  const [authenFlag, setauthenFlag] = useState(true);
+  const [authenFlag, setauthenFlag] = useState(false);
   const [loggedData, setloggedData] = useState({
     name: "",
     data: "",

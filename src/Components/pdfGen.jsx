@@ -18,6 +18,9 @@ const Resume = (props) => {
       <div>
         <button
           className="btn btn-dark btn-circle float-right ml-2 "
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Print Resume"
           onClick={printDocument}
         >
           <i class="fas fa-print fa-2x"></i>
@@ -35,6 +38,9 @@ export default function PdfGen(props) {
         <button
           className="btn btn-dark btn-circle  float-right ml-3 mr-5"
           onClick={props.backPage}
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Back"
         >
           <i class="fas fa-long-arrow-alt-left fa-3x mr-2"></i>
         </button>

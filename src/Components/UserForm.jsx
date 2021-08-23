@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
@@ -7,9 +6,6 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Experience from "./experience";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import Tooltip from "@material-ui/core/Tooltip";
 import Alert from "@material-ui/lab/Alert";
 import axios from "axios";
 import Education from "./education";
@@ -48,13 +44,18 @@ function UserForm(props) {
         id: "00"
       }
     ],
-    toolsUsed: []
+    toolsUsed: [],
+    technicalSkills: [],
+    certificates: []
   });
   const [addExpFlag, setExpFlag] = useState(false);
   const [addEduFlag, setEduFlag] = useState(false);
   const [sucessFlag, setsucessFlag] = useState(false);
   const [sucessEduFlag, setsucessEduFlag] = useState(false);
   const [toolusedFlag, setToolusedFlag] = useState(false);
+  const [certiFlag, setcertiFlag] = useState(false);
+  const [tskillFlag, settskillFlag] = useState(false);
+
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -73,9 +74,17 @@ function UserForm(props) {
   function handleAddEdu() {
     setEduFlag(true);
     setsucessEduFlag(false);
+    setcertiFlag(false);
+    settskillFlag(false);
   }
   function handleAddTools() {
     setToolusedFlag(true);
+  }
+  function handleAddcerti() {
+    setcertiFlag(true);
+  }
+  function handleAddTskill() {
+    settskillFlag(true);
   }
   function addtoolList() {
     const toolData = document.getElementById("toolInputValue").value;
@@ -83,6 +92,26 @@ function UserForm(props) {
       return { ...prevData, toolsUsed: [...prevData.toolsUsed, toolData] };
     });
     document.getElementById("toolInputValue").value = "";
+  }
+  function addcertiList() {
+    const certiData = document.getElementById("certiInputValue").value;
+    setdata((prevData) => {
+      return {
+        ...prevData,
+        certificates: [...prevData.certificates, certiData]
+      };
+    });
+    document.getElementById("certiInputValue").value = "";
+  }
+  function addtechskillList() {
+    const techskillData = document.getElementById("skillInputValue").value;
+    setdata((prevData) => {
+      return {
+        ...prevData,
+        technicalSkills: [...prevData.technicalSkills, techskillData]
+      };
+    });
+    document.getElementById("skillInputValue").value = "";
   }
   function addExperience(userExp) {
     setdata((prevData) => {
@@ -127,7 +156,8 @@ function UserForm(props) {
     return skipped.has(step);
   };
 
-  const handleNext = () => {
+  const handleNext = (event) => {
+    event.preventDefault();
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -138,7 +168,8 @@ function UserForm(props) {
     setSkipped(newSkipped);
   };
 
-  const handleBack = () => {
+  const handleBack = (event) => {
+    event.preventDefault();
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -173,7 +204,11 @@ function UserForm(props) {
       linkdn,
       curPosition,
       profileDesc,
-      experience
+      experience,
+      education,
+      toolsUsed,
+      technicalSkillstoolsUsed,
+      certificates
     } = userdata;
     const objId = props.userData;
     const body = {
@@ -188,7 +223,11 @@ function UserForm(props) {
       linkdn,
       curPosition,
       profileDesc,
-      objId
+      objId,
+      education,
+      toolsUsed,
+      technicalSkillstoolsUsed,
+      certificates
     };
 
     axios
@@ -213,7 +252,30 @@ function UserForm(props) {
       workDesc: "",
       linkdn: "",
       curPosition: "",
-      profileDesc: ""
+      profileDesc: "",
+      toolsUsed: "",
+      technicalSkillstoolsUsed: [],
+      certificates: [],
+      experience: [
+        {
+          companyName: "",
+          designation: "",
+          durationFrom: "",
+          durationTo: "",
+          workDesc: "",
+          id: "00"
+        }
+      ],
+      education: [
+        {
+          institurName: "",
+          degree: "",
+          durationFrom: "",
+          durationTo: "",
+          major: "",
+          id: "00"
+        }
+      ]
     });
     event.preventDefault();
   }
@@ -259,7 +321,9 @@ function UserForm(props) {
                     <Typography>
                       All steps completed - you&apos;re finished
                     </Typography>
-                    <Button onClick={handleReset}>Reset</Button>
+                    <button class="btn btn-primary" onClick={handleReset}>
+                      Reset
+                    </button>
                   </div>
                 ) : (
                   <div>
@@ -455,26 +519,26 @@ function UserForm(props) {
                           </div>
                         ) : (
                           <div>
-                            <Tooltip title="Add Experience" aria-label="add">
-                              <Fab
-                                color="primary"
-                                aria-label="add"
-                                onClick={handleAddExp}
-                              >
-                                <AddIcon />
-                              </Fab>
-                            </Tooltip>
-                            <span className="ml-3">
-                              <Tooltip title="Add Tools used" aria-label="add">
-                                <Fab
-                                  color="default"
-                                  aria-label="add"
-                                  onClick={handleAddTools}
-                                >
-                                  <AddIcon />
-                                </Fab>
-                              </Tooltip>
-                            </span>
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-circle mb-2 ml-3 mt-3"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Add Work Experience"
+                              onClick={handleAddExp}
+                            >
+                              <i class="fas fa-laptop-code fa-3x"></i>
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-dark btn-circle mt-2 ml-3"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Add Tools used"
+                              onClick={handleAddTools}
+                            >
+                              <i class="fas fa-wrench fa-3x"></i>
+                            </button>
                           </div>
                         )}
                       </div>
@@ -513,6 +577,70 @@ function UserForm(props) {
                             </div>
                           </div>
                         )}
+                        {tskillFlag && (
+                          <div>
+                            <div class="input-group input-group-lg">
+                              <input
+                                type="text"
+                                class="form-control"
+                                aria-label="Large"
+                                aria-describedby="inputGroup-sizing-sm"
+                                id="skillInputValue"
+                              />
+                              <div class="input-group-append">
+                                <button
+                                  class="btn btn-outline-secondary"
+                                  type="button"
+                                  onClick={addtechskillList}
+                                >
+                                  Add Skill
+                                </button>
+                              </div>
+                            </div>
+                            <div className="mt-2">
+                              {userdata.technicalSkills.map((skill, index) => {
+                                return (
+                                  <button className="btn btn-outline-secondary ml-1 mt-1">
+                                    {skill}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {certiFlag && (
+                          <div>
+                            <div class="input-group input-group-lg mt-4">
+                              <input
+                                type="text"
+                                class="form-control"
+                                aria-label="Large"
+                                aria-describedby="inputGroup-sizing-sm"
+                                id="certiInputValue"
+                                placeholder="Certificates and Achievements"
+                              />
+                              <div class="input-group-append">
+                                <button
+                                  class="btn btn-outline-secondary"
+                                  type="button"
+                                  onClick={addcertiList}
+                                  aria-label="Username"
+                                >
+                                  Add Data
+                                </button>
+                              </div>
+                            </div>
+                            <div className="mt-2">
+                              <ul class="list-group">
+                                {userdata.certificates.map((skill, index) => {
+                                  return (
+                                    <li class="list-group-item"> {skill}</li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          </div>
+                        )}
                         {addEduFlag ? (
                           <div>
                             {userdata.education.map((edu, index) => {
@@ -529,51 +657,73 @@ function UserForm(props) {
                             })}
                           </div>
                         ) : (
-                          <Tooltip
-                            title="Add Education Details"
-                            aria-label="add"
-                          >
-                            <Fab
-                              color="primary"
-                              aria-label="add"
+                          <div className="mt-3">
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-circle mb-2"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Add Education Details"
                               onClick={handleAddEdu}
                             >
-                              <AddIcon />
-                            </Fab>
-                          </Tooltip>
+                              <i class="fas fa-user-graduate fa-3x"></i>
+                              <i class="fas fa-plus"></i>
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-dark btn-circle mb-2 ml-3"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Add Technical skills"
+                              onClick={handleAddTskill}
+                            >
+                              <i class="fas fa-plus fa-3x"></i>
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-info btn-circle mb-2 ml-3"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Add Certifications"
+                              onClick={handleAddcerti}
+                            >
+                              <i class="fas fa-star fa-3x"></i>
+                            </button>
+                          </div>
                         )}
                       </div>
                     )}
                     <div>
-                      <Button disabled={activeStep === 0} onClick={handleBack}>
+                      <button
+                        class="btn btn-outline-dark mr-3 mb-1"
+                        hidden={activeStep === 0}
+                        onClick={handleBack}
+                      >
                         Back
-                      </Button>
+                      </button>
                       {isStepOptional(activeStep) && (
-                        <Button
-                          variant="contained"
-                          color="primary"
+                        <button
+                          class="btn btn-outline-primary mr-3 mb-1"
                           onClick={handleSkip}
                         >
                           Skip
-                        </Button>
+                        </button>
                       )}
 
                       {activeStep === steps.length - 1 ? (
-                        <Button
+                        <button
+                          class="btn btn-outline-primary mr-3 mb-1"
                           onClick={submitData}
-                          variant="contained"
-                          color="primary"
                         >
-                          submit details
-                        </Button>
+                          Submit Details
+                        </button>
                       ) : (
-                        <Button
-                          variant="contained"
-                          color="primary"
+                        <button
+                          class="btn btn-outline-primary mr-3 mb-1"
                           onClick={handleNext}
                         >
                           Next
-                        </Button>
+                        </button>
                       )}
                     </div>
                   </div>
